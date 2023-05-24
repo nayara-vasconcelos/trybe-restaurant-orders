@@ -20,6 +20,16 @@ def read_csv_inventory(inventory_file_path=BASE_INVENTORY) -> Dict:
     return inventory
 
 
+# def write_csv_inventory(inventory: Dict, inventory_file_path=BASE_INVENTORY):
+#     with open(inventory_file_path, "w", encoding="utf-8") as file:
+#         headers = ["ingredient", "initial_amount"]
+#         writer = DictWriter(file, fieldnames=headers)
+#         writer.writeheader()
+#         for ingredient, amount in inventory.items():
+#             row = {"ingredient": ingredient.name, "initial_amount": amount}
+#             writer.writerow(row)
+
+
 # Req 5
 class InventoryMapping:
     def __init__(self, inventory_file_path=BASE_INVENTORY) -> None:
@@ -34,4 +44,10 @@ class InventoryMapping:
 
     # Req 5.2
     def consume_recipe(self, recipe: Recipe) -> None:
-        pass
+        if not self.check_recipe_availability(recipe):
+            raise ValueError("Some ingredients are unavailable.")
+
+        for ingredient, amount in recipe.items():
+            self.inventory[ingredient] -= amount
+
+        return None
