@@ -33,16 +33,22 @@ class MenuBuilder:
             "restrictions": dish.get_restrictions(),
         }
 
-    def _check_restriction(self, restriction, dish_restrictions):
+    def _check_dish_restrictions(self, restriction, dish_restrictions):
+        if restriction is None:
+            return False
+
         for dish_restriction in dish_restrictions:
-            if repr(dish_restriction) == repr(restriction):
+            if dish_restriction == restriction:
                 return True
+
         return False
 
     def get_main_menu(self, restriction=None) -> pd.DataFrame:
         menu = []
         for dish in self.menu_data.dishes:
-            if restriction is None or not self._check_restriction(
+            if self.inventory.check_recipe_availability(
+                dish.recipe
+            ) and not self._check_dish_restrictions(
                 restriction, dish.get_restrictions()
             ):
                 menu.append(self._format_menu(dish))
