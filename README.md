@@ -49,7 +49,7 @@ python3 -m venv .venv && source .venv/bin/activate
 ```
 <br>
 
-- Para instalar as dependências e o programa no ambiente virtual:
+- Para instalar as dependências do projeto no ambiente virtual:
 ```bash
 python3 -m pip install -r dev-requirements.txt
 ```
